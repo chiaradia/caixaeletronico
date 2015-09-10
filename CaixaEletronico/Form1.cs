@@ -16,6 +16,7 @@ namespace CaixaEletronico
         private Conta conta;
         private Titular titular;
         private TotalizadorDeContas totalizadorDeContas;
+        private Banco banco;
 
         public Form1()
         {
@@ -26,11 +27,11 @@ namespace CaixaEletronico
 
         private void Form1_Load_1(object sender, EventArgs e)
         {
-            this.conta = new Conta();
+            this.conta = new ContaCorrente();
             this.titular = new Titular();
+            this.banco = new Banco();
             this.totalizadorDeContas = new TotalizadorDeContas();
-            this.conta.Deposita(250.0);
-            MessageBox.Show("Saldo: " + this.conta.Saldo);
+            
 
         }
 
@@ -41,26 +42,43 @@ namespace CaixaEletronico
             this.conta.Cliente.Cpf = textoCPF.Text;
             this.conta.Cliente.Idade = Convert.ToInt32(textoIdade.Text);
             this.conta.Cliente.Endereco = textoEndereco.Text;
-            MessageBox.Show(this.conta.Cliente.Nome);
-
+            this.conta.Numero = Convert.ToString(new Random().Next(1000, 9999));
+            this.banco.Adiciona((ContaCorrente)this.conta);
+            comboBanco.Items.Add(this.banco.contas[this.banco.indice-1].Cliente.Nome);
+            MessageBox.Show("O cliente " + textoTitular.Text + " foi adicionado.");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("O saldo da conta é: "+this.conta.Saldo);
+            MessageBox.Show("O saldo da conta é: "+ this.banco.contas[comboBanco.SelectedIndex].Saldo);
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             double valor = Convert.ToDouble(textoValor.Text);
-            this.conta.Deposita(valor);
+            Conta contaSelecionada = this.BuscaContaSelecionada();
+            contaSelecionada.Deposita(valor);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             double valor = Convert.ToDouble(textoValor.Text);
-            this.conta.Saca(valor);
+            Conta contaSelecionada = this.BuscaContaSelecionada();
+            contaSelecionada.Saca(valor);
+        }
+
+        private void comboBanco_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textoSaldoConta.Text = Convert.ToString(this.BuscaContaSelecionada().Saldo);
+            textoNumeroConta.Text = Convert.ToString(this.BuscaContaSelecionada().Numero);
+           
+        }
+
+        private Conta BuscaContaSelecionada()
+        {
+            int indiceSelecionado = comboBanco.SelectedIndex;
+            return this.banco.contas[indiceSelecionado];
         }
     }
 }

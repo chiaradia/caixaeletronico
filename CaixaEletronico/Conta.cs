@@ -6,35 +6,14 @@ using System.Threading.Tasks;
 
 namespace CaixaEletronico
 {
-    class Conta
+    abstract class Conta
     {
         public string Numero { get; set; }
         public double Saldo { get; protected set; }
         public Titular Cliente { get; set; }
 
         //virtual: Para permitir que o método seja sobrescrito.
-        public virtual bool Saca (double valor)
-        {
-            
-            if (this.Saldo >= valor && valor > 0)
-            {
-                if (Cliente.EhMaiorDeIdade)
-                {
-                    this.Saldo -= valor;
-                    return true;
-                } else if (!Cliente.EhMaiorDeIdade && this.Saldo >= valor && valor <= 200.0)
-                {
-                    this.Saldo -= valor;
-                    return true;
-                } else {
-                    return false;
-                }
-            } else
-            {
-                return false;
-            }
-                
-        }
+        public abstract bool Saca(double valor);
 
         public void Deposita (double valor)
         {
