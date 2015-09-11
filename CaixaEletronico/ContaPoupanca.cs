@@ -9,10 +9,10 @@ namespace CaixaEletronico
     class ContaPoupanca : Conta
     {
         //override : Para indicar que o método está sobrescrevendo um método da classe-pai.
-        public override bool Saca (double valor)
+        public override void Saca (double valor)
         {
             this.Saldo -= (valor + 0.10);
-            return true;
+            
         }
 
         //a variavel base faz uma referencia ao método escrito na classe mãe

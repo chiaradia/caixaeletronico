@@ -65,7 +65,14 @@ namespace CaixaEletronico
         {
             double valor = Convert.ToDouble(textoValor.Text);
             Conta contaSelecionada = this.BuscaContaSelecionada();
-            contaSelecionada.Saca(valor);
+            try
+            {
+                contaSelecionada.Saca(valor);
+                MessageBox.Show("Saque efetuado com sucesso");
+            } catch (SaldoException )
+            {
+                MessageBox.Show("Valor inválido para saque");
+            }
         }
 
         private void comboBanco_SelectedIndexChanged(object sender, EventArgs e)

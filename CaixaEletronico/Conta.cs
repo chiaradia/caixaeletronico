@@ -13,7 +13,7 @@ namespace CaixaEletronico
         public Titular Cliente { get; set; }
 
         //virtual: Para permitir que o método seja sobrescrito.
-        public abstract bool Saca(double valor);
+        public abstract void Saca(double valor);
 
         public void Deposita (double valor)
         {
